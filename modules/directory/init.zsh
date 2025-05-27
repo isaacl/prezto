@@ -29,4 +29,12 @@ if ! zstyle -t ':prezto:module:directory:alias' skip; then
   alias -- -='cd -'
   alias d='dirs -v'
   for index ({1..9}) alias "$index"="cd +${index}"; unset index
+  alias_str=".."
+  cmd_str="cd .."
+  for index ({1..15}); do
+    alias_str+="."
+    cmd_str+="/.."
+    alias "$alias_str=$cmd_str";
+  done
+  unset index alias_str cmd_str
 fi
