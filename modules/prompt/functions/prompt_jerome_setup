@@ -1,0 +1,41 @@
+function prompt_jerome_precmd {
+  git-info
+}
+
+function prompt_jerome_dollar {
+  if [[ $? -gt 0 ]]; then
+    echo '%F{red}$%f\c'
+  else
+    echo '$\c'
+  fi
+}
+
+function prompt_jerome_setup {
+  setopt LOCAL_OPTIONS
+  unsetopt XTRACE KSH_ARRAYS
+  prompt_opts=(cr percent subst)
+
+  # Load required functions.
+  autoload -Uz add-zsh-hook
+
+  # Add hook for calling git-info before each command.
+  add-zsh-hook precmd prompt_jerome_precmd
+
+  # Set git-info parameters.
+  zstyle ':prezto:module:git:info' verbose 'yes'
+  zstyle ':prezto:module:git:info:branch' format '%F{green}%b%f'
+  zstyle ':prezto:module:git:info:commit' format '%F{yellow}%.7c%f'
+  # Kind of useless position info.
+  # zstyle ':prezto:module:git:info:position' format '%F{blue}%p%f'
+  zstyle ':prezto:module:git:info:clean' format ' %F{049}✔%f'
+  zstyle ':prezto:module:git:info:dirty' format ' %F{red}✗%f'
+  zstyle ':prezto:module:git:info:keys' format \
+    'prompt' '%F{158}(%f$(coalesce "%b" "%p" "%c")${git_info[rprompt]}%s%F{158})%f' \
+    'rprompt' '%C%D'
+
+  # Define prompts.
+  PROMPT=' %~${(e)git_info[prompt]} $(prompt_jerome_dollar) '
+  RPROMPT=''
+}
+
+prompt_jerome_setup "$@"
