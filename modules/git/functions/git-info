@@ -311,10 +311,11 @@ function git-info {
             --no-ext-diff \
             --name-only \
             --cached \
+            -z \
             --ignore-submodules=${ignore_submodules:-none} \
             HEAD \
             2> /dev/null \
-          | wc -l
+          | grep -zc '^'
         )
       ))
       if (( indexed > 0 )); then
@@ -330,9 +331,10 @@ function git-info {
           command git diff-files \
             --no-ext-diff \
             --name-only \
+            -z \
             --ignore-submodules=${ignore_submodules:-none} \
             2> /dev/null \
-          | wc -l
+          | grep -zc '^'
         )
       ))
       if (( unindexed > 0 )); then
