@@ -27,8 +27,8 @@ unsetopt CLOBBER            # Do not overwrite existing files with > and >>.
 
 if ! zstyle -t ':prezto:module:directory:alias' skip; then
   alias -- -='cd -'
-  alias d='dirs -v'
-  for index ({1..9}) alias "$index"="cd +${index}"; unset index
+  #alias d='dirs -v'
+  #for index ({1..9}) alias "$index"="cd +${index}"; unset index
   alias_str=".."
   cmd_str="cd .."
   for index ({1..15}); do
